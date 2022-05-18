@@ -28,7 +28,7 @@ mail.smtp.password=123456789
 For deploy execute this command line:
 
 ```
-python managa.py runserver
+python manage.py runserver
 ```
 
 ### EXECUTE NOTIFICACIÓN
