@@ -19,7 +19,7 @@ from rest_framework import routers, serializers, viewsets
 from ms_sendmail.api.sendmail import send_success_mail
 
 urlpatterns = [
-    path('api/v1/', include('rest_framework.urls', namespace='rest_framework')),
+    #path('api/v1/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/send-mail/<str:toList>', send_success_mail, name="build_and_send"),
 
 ]
