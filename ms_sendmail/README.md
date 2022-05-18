@@ -31,7 +31,7 @@ For deploy execute this command line:
 python manage.py runserver
 ```
 
-### EXECUTE NOTIFICACIÓN
+### EXECUTE SEND MAIL
 
 In the web browser add following url:
 
