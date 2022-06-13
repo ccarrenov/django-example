@@ -2,6 +2,7 @@
 {% block title %}Web Shopping{% endblock %}
 {% block content %}
 <div class="container-lg">
+    <!-- DATA TABLE-->
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +28,23 @@
             {% endif %}
         </tbody>
     </table>
-    <nav aria-label="...">
+
+    <!-- SELECTOR PAGINATION -->
+    <div style="width: 200px; margin:auto; margin-top:10px;margin-bottom: 10px;">
+        <select class="form-select" aria-label="Default select example">
+            {% if options %}
+            {% for option in options %}
+            {% if option == page %}            
+            <option value="{{option}}" selected>{{option}}</option>
+            {% else %}
+            <option value="{{option}}">{{option}}</option>
+            {% endif %}                        
+            {% endfor %}
+            {% endif %}
+          </select>
+    </div>
+    <!-- PAGINATION OPTION -->
+    <nav aria-label="">
         <ul class="pagination pagination-lg justify-content-center">
             {%if  countries.number <= 1 %}
             <li style="width: 200px" class="page-item disabled">
