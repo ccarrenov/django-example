@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+  <!-- NAVBAR MENU-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <!-- MENU -->
+      <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu"
+        aria-controls="offcanvas-menu">MENU</button>
+      <!--LOGIN BUTTON -->
+      <button class="btn btn-outline-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-right"
+        aria-controls="offcanvasRight">LOGIN</button>
+    </div>
+  </nav>
+  <!-- OFFCANVAS MENU-->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-label">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvas-menu-label"></h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="icon">
+        <img src="{% static 'img/icon/settings.png' %}" alt="">
+      </div>
+      <div class="offcanvas-menu">
+        <ul class="option" aria-labelledby="dropdown-menu-button">
+          <li class=""><a class="" href="/country">Country</a></li>
+          <li><a class="" href="#">State</a></li>
+          <li><a class="" href="#">City</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- OFFCANVAS LOGIN-->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-right" aria-labelledby="offcanvas-right-label">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvas-right-label"></h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <form>
+        <div class="mb-3">
+          <label for="txt-username" class="form-label">Email address</label>
+          <input type="email" required class="form-control" id="txt-username" aria-describedby="emailHelp" placeholder="username@example.com">
+        </div>
+        <div class="mb-3">
+          <label for="txt-password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="txt-password" required placeholder="**********">
+        </div>
+        <div class="mb-3">
+          <a id="txt-username" class="form-label">Recovery</a>
+        </div>        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>    
+    <div class="offcanvas-body">
+      <div class="icon">
+        <img src="{% static 'img/icon/man.png' %}" alt="">
+      </div>
+      <div class="user-data-login">
+        <p>dtapiatorres@gmail.com</p>
+        <p>Diego Tapia Torres</p>
+      </div>
+      <div class="offcanvas-login">
+        <ul class="option" aria-labelledby="dropdown-login-button">
+          <li class=""><a class="" href="#">EDIT</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% block content %}{% endblock %}
+  <script src="{% static 'js/jquery/jquery-3.6.0.min.js' %}"></script>
+  <script src="{% static 'js/popper/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

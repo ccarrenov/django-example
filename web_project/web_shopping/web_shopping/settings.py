@@ -12,13 +12,14 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'web_shopping.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'web_shopping', 'template'), os.path.join(BASE_DIR, 'web_shopping', 'template', 'parent')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,11 +82,11 @@ WSGI_APPLICATION = 'web_shopping.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env.str('NAME'), 
-        'USER': env.str('USER'), 
-        'PASSWORD': env.str('PASSWORD'),
-        'HOST': env.str('HOST'), 
-        'PORT': env.str('PORT'),
+        'NAME': env.str('NAME_DB'), 
+        'USER': env.str('USER_DB'), 
+        'PASSWORD': env.str('PASSWORD_DB'),
+        'HOST': env.str('HOST_DB'), 
+        'PORT': env.str('PORT_DB'),
     }
 }
 

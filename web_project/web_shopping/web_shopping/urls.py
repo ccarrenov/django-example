@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from web_shopping.views import index
+from web_shopping.views import country
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index.load),
+    path('country/', country.load)
 ]
