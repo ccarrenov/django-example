@@ -21,5 +21,6 @@ from web_shopping.views import country
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index.load),
+    path('home/', index.load),
     path('country/', country.load)
 ]

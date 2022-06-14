@@ -27,6 +27,23 @@
 	margin-left: 5rem;
 }
 
+.selector-option-menu {
+	width: 200px !important;
+	/*margin: auto !important;*/
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+	text-align: center !important;
+}
+
+.pagination-option-menu {
+	width: 200px;
+}
+
+.margin-top-bottom {
+	margin-top: 10px !important;
+	margin-bottom: 10px  !important;
+}
+
 .option li {
 	list-style: none;
 	text-decoration: none;
