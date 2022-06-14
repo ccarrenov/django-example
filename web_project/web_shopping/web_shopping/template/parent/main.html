@@ -59,18 +59,21 @@
       {% if user.is_authenticated %}  
       <div class="offcanvas-body">
         <div class="icon">
-          <img src="{% static 'img/icon/man.png' %}" alt="">
+          <img src="{% static 'img/icon/man.png' %}" alt="">         
         </div>
         <div class="user-data-login">
           <p>{{ user.email }}</p>
           <p>{{ user.username }}</p>
-          <p>{{ user.firstname}} {{ user.lastname}}</p>
+          <p>{{ user.first_name}} {{ user.last_name}}</p>
         </div>
         <div class="offcanvas-login">
           <ul class="option" aria-labelledby="dropdown-login-button">
             <li class=""><a class="" href="#">EDIT</a></li>
           </ul>
-        </div>
+          <form method="POST" action="/logout">{% csrf_token %}
+              <button class="btn btn-outline-primary ms-2 bi bi-door-open" type="submit"></button>                        
+          </form>            
+        </div>       
       </div>
       {% else %}          
       <div class="offcanvas-body">

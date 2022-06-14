@@ -18,6 +18,7 @@ from django.urls import path
 from web_shopping.views import index
 from web_shopping.views import country
 from web_shopping.views import login
+from web_shopping.views import logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('home/', index.load),
     path('country/', country.load),
     path('login', login.authentication), 
+    path('logout', logout.logout_user), 
 ]
