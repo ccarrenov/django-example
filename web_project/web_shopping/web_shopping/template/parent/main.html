@@ -20,14 +20,18 @@
         <!-- MENU -->
         <div class="">
           <a href="/home/"><img src="{% static 'img/icon/home32x32x.png' %}" alt=""></a>
+          {% if user.is_authenticated %}
           <button class="btn btn-outline-primary ms-2 bi bi-microsoft" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu "></button>
+          {% endif %}
         </div>
         <!--LOGIN BUTTON -->
-        <button class="btn btn-outline-success  bi bi-person-circle" type="button" data-bs-toggle="offcanvas"
+        <button class="btn btn-outline-success ml-auto bi bi-person-circle" type="button" data-bs-toggle="offcanvas"
           data-bs-target="#offcanvas-right" aria-controls="offcanvasRight"></button>
+
       </div>
     </nav>
+    {% if user.is_authenticated %}
     <!-- OFFCANVAS MENU-->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-label">
       <div class="offcanvas-header">
@@ -45,36 +49,22 @@
         </div>
       </div>
     </div>
+    {% endif %}
     <!-- OFFCANVAS LOGIN-->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-right" aria-labelledby="offcanvas-right-label">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvas-right-label"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
-        <form>
-          <div class="mb-3">
-            <label for="txt-username" class="form-label">Email address</label>
-            <input type="email" required class="form-control" id="txt-username" aria-describedby="emailHelp"
-              placeholder="username@example.com">
-          </div>
-          <div class="mb-3">
-            <label for="txt-password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="txt-password" required placeholder="**********">
-          </div>
-          <div class="mb-3">
-            <a id="txt-username" class="form-label">Recovery</a>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
+      {% if user.is_authenticated %}  
       <div class="offcanvas-body">
         <div class="icon">
           <img src="{% static 'img/icon/man.png' %}" alt="">
         </div>
         <div class="user-data-login">
-          <p>dtapiatorres@gmail.com</p>
-          <p>Diego Tapia Torres</p>
+          <p>{{ user.email }}</p>
+          <p>{{ user.username }}</p>
+          <p>{{ user.firstname}} {{ user.lastname}}</p>
         </div>
         <div class="offcanvas-login">
           <ul class="option" aria-labelledby="dropdown-login-button">
@@ -82,6 +72,25 @@
           </ul>
         </div>
       </div>
+      {% else %}          
+      <div class="offcanvas-body">
+        <form method="POST" action="/login">{% csrf_token %}
+          <div class="mb-3">
+            <label for="txt-username" class="form-label">User</label>
+            <input type="text" required class="form-control" id="txt-username" name="username" aria-describedby="emailHelp"
+              placeholder="Username">
+          </div>
+          <div class="mb-3">
+            <label for="txt-password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="txt-password" name="password" required placeholder="**********">
+          </div>
+          <div class="mb-3">
+            <a id="txt-username" class="form-label">Recovery</a>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      {% endif %}          
     </div>
   </header>
   <main>{% block content %}{% endblock %}</main>

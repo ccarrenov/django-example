@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from web_shopping.views import index
 from web_shopping.views import country
+from web_shopping.views import login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index.load),
     path('home/', index.load),
-    path('country/', country.load)
+    path('country/', country.load),
+    path('login', login.authentication), 
 ]
