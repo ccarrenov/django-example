@@ -307,17 +307,3 @@ class Supplier(models.Model):
     class Meta:
         managed = False
         db_table = 'supplier'
-
-
-class Usuario(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    nombres = models.CharField(max_length=80, blank=True, null=True)
-    apellidos = models.CharField(max_length=80, blank=True, null=True)
-    fechanacimiento = models.DateField(blank=True, null=True)
-    username = models.CharField(max_length=30, blank=True, null=True)
-    password = models.CharField(max_length=256, blank=True, null=True)
-    email = models.CharField(max_length=120, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'usuario'

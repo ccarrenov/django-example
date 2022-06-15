@@ -19,12 +19,14 @@ from web_shopping.views import index
 from web_shopping.views import country
 from web_shopping.views import login
 from web_shopping.views import logout
+from web_shopping.api   import authentication
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index.load),
     path('home/', index.load),
     path('country/', country.load),
-    path('login', login.authentication), 
-    path('logout', logout.logout_user), 
+    path('login', login.authentication),
+    path('logout', logout.logout_user),
+    path('api/v1/token', authentication.token),
 ]
