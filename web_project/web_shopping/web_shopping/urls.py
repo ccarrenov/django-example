@@ -19,7 +19,11 @@ from web_shopping.views import index
 from web_shopping.views import country
 from web_shopping.views import login
 from web_shopping.views import logout
+from web_shopping.views import user
 from web_shopping.api   import authentication
+from web_shopping.views import model_register
+
+model_register.load()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +32,6 @@ urlpatterns = [
     path('country/', country.load),
     path('login', login.authentication),
     path('logout', logout.logout_user),
+    path('edit-user/', user.load),
     path('api/v1/token', authentication.token),
 ]

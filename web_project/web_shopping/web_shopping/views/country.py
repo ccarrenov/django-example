@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from web_shopping.persistence.models import Country
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from web_shopping.persistence.models import Country
+from web_shopping.views.login import authorization
 
 headers = ['ID', 'COUNTRY NAME', 'ALPHA2 CODE',
            'ALPHA3 CODE', 'NUMERIC COUNTRY', 'COUNTRY DETAIL']
@@ -9,6 +10,8 @@ quantity_element = 15
 
 
 def load(request):
+    if not authorization(request, 'view_country'):
+        return render(request, 'error-403.html')
     countries = []
     state, message = save_or_update_or_delete(request)
     try:

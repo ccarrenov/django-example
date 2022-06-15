@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
 
 
@@ -12,3 +12,12 @@ def authentication(request):
         except Exception as e:
             print('Error: ', e)
     return redirect('home/')
+
+def authorization(request, perm):
+    if request.user != None:
+        if request.user.has_perm(perm):
+            return True
+        else:
+            return False
+    else:
+        return False

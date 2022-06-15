@@ -43,9 +43,11 @@
           <img src="{% static 'img/icon/settings.png' %}" alt="">
         </div>
         <div class="offcanvas-menu">
+          {% if perms.country.view_country %}
           <ul class="option" aria-labelledby="dropdown-menu-button">
             <li class=""><a class="" href="/country">Country</a></li>
           </ul>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -68,7 +70,7 @@
         </div>
         <div class="offcanvas-login">
           <ul class="option" aria-labelledby="dropdown-login-button">
-            <li class=""><a class="" href="#">EDIT</a></li>
+            <li class=""><a class="" href="/edit-user">EDIT</a></li>
           </ul>
           <form method="POST" action="/logout">{% csrf_token %}
               <button class="btn btn-outline-primary ms-2 bi bi-door-open" type="submit"></button>                        
