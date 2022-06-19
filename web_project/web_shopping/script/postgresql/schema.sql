@@ -1,4 +1,27 @@
-/*DROP TABLES SCHEMA*/
+/* EXECUTE WITH web_shopping_bd USER  */
+/*DROP TABLES SCHEMA DJANGO*/
+DROP TABLE IF EXISTS public.auth_group;
+DROP TABLE IF EXISTS public.auth_group_permissions;
+
+CREATE TABLE auth_group (
+    id BIGSERIAL PRIMARY KEY,
+    name character varying(150) NOT NULL
+);
+
+CREATE TABLE auth_group_permissions (
+    id BIGSERIAL PRIMARY KEY,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+CREATE TABLE  auth_permission (
+    id BIGSERIAL PRIMARY KEY,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+/*DROP TABLES SCHEMA WEB SHOPPING*/
 DROP TABLE IF EXISTS billing_type;
 DROP TABLE IF EXISTS pay_method;
 DROP TABLE IF EXISTS stock;
@@ -948,3 +971,6 @@ create table pay_method(
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('credit card', ''); 
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('debit card', ''); 
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('cash', ''); 
+
+INSERT INTO AUTH_USER
+"pbkdf2_sha256$320000$qdBAYBozHfVYRtXzLY3hMp$sZD+L0yEbVW1FOCnBh48CDZxmA+xWcMnmQ4Epo9Ahk4="	"2022-06-15 18:51:53.365404+00"	true	"admin"	"Cristian"	"Carreño"	"admin@admin.cl"	true	true	"2022-06-14 18:59:05.234685+00"
