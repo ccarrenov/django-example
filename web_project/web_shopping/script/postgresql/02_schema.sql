@@ -1,24 +1,72 @@
 /* EXECUTE WITH web_shopping_bd USER  */
 /*DROP TABLES SCHEMA DJANGO*/
-DROP TABLE IF EXISTS public.auth_group;
-DROP TABLE IF EXISTS public.auth_group_permissions;
+
+DROP TABLE IF EXISTS auth_permission;
+DROP TABLE IF EXISTS django_admin_log;
+DROP TABLE IF EXISTS auth_group_permissions;
+DROP TABLE IF EXISTS auth_group;
+DROP TABLE IF EXISTS auth_user;
+DROP TABLE IF EXISTS django_content_type;
 
 CREATE TABLE auth_group (
     id BIGSERIAL PRIMARY KEY,
-    name character varying(150) NOT NULL
+    name varchar(150) NOT NULL UNIQUE
+);
+
+CREATE TABLE auth_user(
+	id BIGSERIAL PRIMARY KEY,
+	password varchar(128) NOT NULL,
+	last_login	timestamp,
+	is_superuser boolean NOT NULL,
+	username varchar(150) NOT NULL UNIQUE,
+	firt_name varchar(150) NOT NULL,
+	last_name varchar(150) NOT NULL,
+	email varchar(254) NOT NULL,
+	is_staff boolean NOT NULL,
+	is_active boolean NOT NULL,
+	date_joined timestamp
+);
+
+CREATE TABLE django_content_type (
+	id BIGSERIAL PRIMARY KEY,
+	app_label varchar(100) NOT NULL UNIQUE,
+	model varchar(100) NOT NULL UNIQUE,
+   	CONSTRAINT django_content_type_app_label_model
+	   UNIQUE (app_label, model)
+);
+
+CREATE TABLE django_admin_log (
+	id BIGSERIAL PRIMARY KEY,
+	action_time timestamp NOT NULL,
+	object_id text,
+	object_repr varchar(200) NOT NULL,
+	action_flag smallint NOT NULL CHECK (action_flag > 0),
+	change_message text NOT NULL,
+	content_type_id BIGINT,
+	user_id BIGINT,
+   	CONSTRAINT fk_django_admin_log_content_type_id
+    	FOREIGN KEY(content_type_id) 
+	 	REFERENCES django_content_type(id),
+    	FOREIGN KEY(user_id) 
+	 	REFERENCES auth_user(id)
+);
+
+CREATE TABLE auth_permission (
+    id BIGSERIAL PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename varchar(100) NOT NULL,
+   	CONSTRAINT auth_permission_content_type_id_codename
+	   UNIQUE (content_type_id, codename),
+   	CONSTRAINT auth_permission_content_type_id
+    	FOREIGN KEY(content_type_id) 
+	 	REFERENCES django_content_type(id)
 );
 
 CREATE TABLE auth_group_permissions (
     id BIGSERIAL PRIMARY KEY,
     group_id integer NOT NULL,
     permission_id integer NOT NULL
-);
-
-CREATE TABLE  auth_permission (
-    id BIGSERIAL PRIMARY KEY,
-    name character varying(255) NOT NULL,
-    content_type_id integer NOT NULL,
-    codename character varying(100) NOT NULL
 );
 
 /*DROP TABLES SCHEMA WEB SHOPPING*/
