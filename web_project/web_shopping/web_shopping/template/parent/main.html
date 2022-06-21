@@ -39,15 +39,25 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <div class="icon">
+        <div class="icon">          
           <img src="{% static 'img/icon/settings.png' %}" alt="">
         </div>
         <div class="offcanvas-menu">
           {% if perms.country.view_country %}
           <ul class="option" aria-labelledby="dropdown-menu-button">
-            <li class=""><a class="" href="/country">Country</a></li>
+            <a class="" href="/country"><li class=""><i class="bi bi-globe"></i> Country</li></a>
           </ul>
           {% endif %}
+          {% if perms.country.view_state%}
+          <ul class="option" aria-labelledby="dropdown-menu-button">
+            <a class="" href="/state"><li class=""><i class="bi bi-map"></i> State</li></a>
+          </ul>
+          {% endif %}
+          {% if perms.country.view_city%}
+          <ul class="option" aria-labelledby="dropdown-menu-button">
+            <a class="" href="/city"><li class=""><i class="bi bi-building"></i> City</li></a>
+          </ul>
+          {% endif %}                     
         </div>
       </div>
     </div>
@@ -69,12 +79,26 @@
           <p>{{ user.first_name}} {{ user.last_name}}</p>
         </div>
         <div class="offcanvas-login">
-          <ul class="option" aria-labelledby="dropdown-login-button">
-            <li class=""><a class="" href="/edit-user">EDIT</a></li>
-          </ul>
-          <form method="POST" action="/logout">{% csrf_token %}
-              <button class="btn btn-outline-primary ms-2 bi bi-door-open" type="submit"></button>                        
-          </form>            
+          <div class="row">
+            <div class="col-sm-3">            
+            </div>
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-6">
+                  <form method="GET" action="/edit-user">
+                  <button class="btn btn-outline-primary ms-2 bi bi-pencil-square" type="submit"></button>
+                  </form>            
+                </div>                
+                <div class="col-sm-6">
+                  <form method="POST" action="/logout">{% csrf_token %}
+                    <button class="btn btn-outline-primary ms-2 bi bi-door-open" type="submit"></button>
+                  </form>            
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3">             
+            </div>
+          </div>                                         
         </div>       
       </div>
       {% else %}          
@@ -89,11 +113,17 @@
             <label for="txt-password" class="form-label">Password</label>
             <input type="password" class="form-control" id="txt-password" name="password" required placeholder="**********">
           </div>
-          <div class="mb-3">
-            <a id="txt-username" class="form-label">Recovery</a>
+          <div class="row">
+            <div class="col-sm-6 ">
+              <button type="submit" class="m-1 w-100 btn btn-success bi bi-person"> LOGIN</button>              
+            </div>
+            <div class="col-sm-6 ">
+              <a href="/recovery" class="m-1 w-100 btn btn-primary"><i class="bi bi-envelope"></i> Recovery</a>              
+            </div>                        
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </form>     
+      </div>
+
       </div>
       {% endif %}          
     </div>

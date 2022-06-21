@@ -1,12 +1,17 @@
 /* EXECUTE WITH web_shopping_bd USER  */
 /*DROP TABLES SCHEMA DJANGO*/
 
+DROP TABLE IF EXISTS auth_user_user_permissions;
+DROP TABLE IF EXISTS auth_user_groups;
+DROP TABLE IF EXISTS authtoken_token;
+DROP TABLE IF EXISTS auth_group_permissions;
 DROP TABLE IF EXISTS auth_permission;
 DROP TABLE IF EXISTS django_admin_log;
-DROP TABLE IF EXISTS auth_group_permissions;
 DROP TABLE IF EXISTS auth_group;
 DROP TABLE IF EXISTS auth_user;
 DROP TABLE IF EXISTS django_content_type;
+DROP TABLE IF EXISTS django_session;
+DROP TABLE IF EXISTS django_migrations;
 
 CREATE TABLE auth_group (
     id BIGSERIAL PRIMARY KEY,
@@ -19,7 +24,7 @@ CREATE TABLE auth_user(
 	last_login	timestamp,
 	is_superuser boolean NOT NULL,
 	username varchar(150) NOT NULL UNIQUE,
-	firt_name varchar(150) NOT NULL,
+	first_name varchar(150) NOT NULL,
 	last_name varchar(150) NOT NULL,
 	email varchar(254) NOT NULL,
 	is_staff boolean NOT NULL,
@@ -27,13 +32,50 @@ CREATE TABLE auth_user(
 	date_joined timestamp
 );
 
+/* ADD USER admin WITH PASS admin*/
+INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES
+('pbkdf2_sha256$320000$qdBAYBozHfVYRtXzLY3hMp$sZD+L0yEbVW1FOCnBh48CDZxmA+xWcMnmQ4Epo9Ahk4=', NULL, true,
+    'admin', 'Administrator', 'Administrator', 'admin@admin.cl', true, true, now());
+
+SELECT COUNT(1) FROM auth_user;
+
 CREATE TABLE django_content_type (
 	id BIGSERIAL PRIMARY KEY,
-	app_label varchar(100) NOT NULL UNIQUE,
-	model varchar(100) NOT NULL UNIQUE,
+	app_label varchar(100) NOT NULL,
+	model varchar(100) NOT NULL,
    	CONSTRAINT django_content_type_app_label_model
 	   UNIQUE (app_label, model)
 );
+
+INSERT INTO django_content_type (app_label, model) VALUES ('admin', 'logentry');
+INSERT INTO django_content_type (app_label, model) VALUES ('auth', 'permission');
+INSERT INTO django_content_type (app_label, model) VALUES ('auth', 'group');
+INSERT INTO django_content_type (app_label, model) VALUES ('auth', 'user');
+INSERT INTO django_content_type (app_label, model) VALUES ('contenttypes', 'contenttype');
+INSERT INTO django_content_type (app_label, model) VALUES ('sessions', 'session');
+INSERT INTO django_content_type (app_label, model) VALUES ('userapi', 'usuario');
+INSERT INTO django_content_type (app_label, model) VALUES ('authtoken', 'token');
+INSERT INTO django_content_type (app_label, model) VALUES ('authtoken', 'tokenproxy');
+/* ADD CONTENT SCHEMA WEB_SHOPPING*/
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'billing_type');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'pay_method');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'stock');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'supplier');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'address_supplier');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'product');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'category');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'brand');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'person');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'sex');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'address');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'city');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'states');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'currency_converter');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'currency');
+INSERT INTO django_content_type (app_label, model) VALUES ('web_shopping', 'country');
+
+SELECT COUNT(1) FROM django_content_type;
+
 
 CREATE TABLE django_admin_log (
 	id BIGSERIAL PRIMARY KEY,
@@ -42,13 +84,26 @@ CREATE TABLE django_admin_log (
 	object_repr varchar(200) NOT NULL,
 	action_flag smallint NOT NULL CHECK (action_flag > 0),
 	change_message text NOT NULL,
-	content_type_id BIGINT,
-	user_id BIGINT,
+	content_type_id bigint,
+	user_id bigint,
    	CONSTRAINT fk_django_admin_log_content_type_id
     	FOREIGN KEY(content_type_id) 
 	 	REFERENCES django_content_type(id),
     	FOREIGN KEY(user_id) 
 	 	REFERENCES auth_user(id)
+);
+
+CREATE TABLE django_session (
+    session_key varchar(40) PRIMARY KEY,
+    session_data text NOT NULL,
+    expire_date timestamp NOT NULL
+);
+
+CREATE TABLE django_migrations (
+    id BIGSERIAL PRIMARY KEY,
+    app varchar(255) NOT NULL,
+    name varchar(255) NOT NULL,
+    applied timestamp NOT NULL
 );
 
 CREATE TABLE auth_permission (
@@ -63,11 +118,105 @@ CREATE TABLE auth_permission (
 	 	REFERENCES django_content_type(id)
 );
 
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add log entry', 1, 'add_logentry');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change log entry', 1, 'change_logentry');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete log entry', 1, 'delete_logentry');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view log entry', 1, 'view_logentry');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add permission', 2, 'add_permission');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change permission', 2, 'change_permission');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete permission', 2, 'delete_permission');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view permission', 2, 'view_permission');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add group', 3, 'add_group');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change group', 3, 'change_group');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete group', 3, 'delete_group');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view group', 3, 'view_group');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add user', 4, 'add_user');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change user', 4, 'change_user');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete user', 4, 'delete_user');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view user', 4, 'view_user');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add content type', 5, 'add_contenttype');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change content type', 5, 'change_contenttype');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete content type', 5, 'delete_contenttype');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view content type', 5, 'view_contenttype');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add session', 6, 'add_session');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change session', 6, 'change_session');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete session', 6, 'delete_session');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view session', 6, 'view_session');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add usuario', 7, 'add_usuario');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change usuario', 7, 'change_usuario');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete usuario', 7, 'delete_usuario');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view usuario', 7, 'view_usuario');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add Token', 8, 'add_token');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change Token', 8, 'change_token');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete Token', 8, 'delete_token');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view Token', 8, 'view_token');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add token', 9, 'add_tokenproxy');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change token', 9, 'change_tokenproxy');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete token', 9, 'delete_tokenproxy');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view token', 9, 'view_tokenproxy');
+/* ADD PERMISSION WEB_SHOPPING */
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can add Country', 
+    (select id FROM django_content_type WHERE app_label = 'web_shopping' and model = 'country'), 'add_country');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can delete country', 
+    (select id FROM django_content_type WHERE app_label = 'web_shopping' and model = 'country'), 'delete_country');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can view country', 
+    (select id FROM django_content_type WHERE app_label = 'web_shopping' and model = 'country'), 'view_country');
+INSERT INTO auth_permission (name, content_type_id, codename) VALUES ('Can change countrty', 
+    (select id FROM django_content_type WHERE app_label = 'web_shopping' and model = 'country'), 'change_country');
+
+SELECT COUNT(1) FROM auth_permission;
+
+
 CREATE TABLE auth_group_permissions (
     id BIGSERIAL PRIMARY KEY,
-    group_id integer NOT NULL,
-    permission_id integer NOT NULL
+    group_id bigint NOT NULL,
+    permission_id bigint NOT NULL,
+   	CONSTRAINT auth_group_permissions_group_id_permission_id
+	   UNIQUE (group_id, permission_id),
+   	CONSTRAINT auth_group_permissions_group_id
+    	FOREIGN KEY(group_id) 
+	 	REFERENCES auth_group(id),
+   	CONSTRAINT auth_group_permissions_auth_permission
+    	FOREIGN KEY(permission_id) 
+	 	REFERENCES auth_permission(id)     
 );
+
+CREATE TABLE auth_user_groups (
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    user_id bigint NOT NULL,
+    group_id bigint NOT NULL,
+    CONSTRAINT auth_user_groups_user_id_group_id UNIQUE (user_id, group_id),
+   	CONSTRAINT auth_user_groups_user_id
+    	FOREIGN KEY(user_id) 
+	 	REFERENCES auth_user(id),
+   	CONSTRAINT auth_user_groups_group_id
+    	FOREIGN KEY(group_id) 
+	 	REFERENCES auth_group(id)
+);
+
+CREATE TABLE authtoken_token (
+    key varchar(40) PRIMARY KEY,
+    created timestamp NOT NULL,
+    user_id bigint NOT NULL,
+    CONSTRAINT authtoken_token_user_id_key UNIQUE (user_id),
+   	CONSTRAINT authtoken_token_user_id
+    	FOREIGN KEY(user_id) 
+	 	REFERENCES auth_user(id)
+);
+
+CREATE TABLE auth_user_user_permissions (
+    id BIGSERIAL PRIMARY KEY,
+    user_id bigint NOT NULL,
+    permission_id bigint NOT NULL,
+    CONSTRAINT auth_user_user_permissions_user_id_permission_id UNIQUE (user_id, permission_id),
+   	CONSTRAINT auth_user_user_permissions_permission_id
+    	FOREIGN KEY(permission_id) 
+	 	REFERENCES auth_permission(id),
+   	CONSTRAINT auth_user_user_permissions_user_id
+    	FOREIGN KEY(user_id) 
+	 	REFERENCES auth_user(id)
+);
+
 
 /*DROP TABLES SCHEMA WEB SHOPPING*/
 DROP TABLE IF EXISTS billing_type;
@@ -1020,5 +1169,3 @@ INSERT INTO pay_method (pay_name, pay_detail) VALUES ('credit card', '');
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('debit card', ''); 
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('cash', ''); 
 
-INSERT INTO AUTH_USER
-"pbkdf2_sha256$320000$qdBAYBozHfVYRtXzLY3hMp$sZD+L0yEbVW1FOCnBh48CDZxmA+xWcMnmQ4Epo9Ahk4="	"2022-06-15 18:51:53.365404+00"	true	"admin"	"Cristian"	"Carreño"	"admin@admin.cl"	true	true	"2022-06-14 18:59:05.234685+00"

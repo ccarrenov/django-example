@@ -32,7 +32,6 @@ class AddressSupplier(models.Model):
 
 
 class AuthGroup(models.Model):
-    id = models.BigAutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=150)
 
     class Meta:
@@ -52,7 +51,6 @@ class AuthGroupPermissions(models.Model):
 
 
 class AuthPermission(models.Model):
-    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=255)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
     codename = models.CharField(max_length=100)
@@ -64,7 +62,6 @@ class AuthPermission(models.Model):
 
 
 class AuthUser(models.Model):
-    id = models.BigAutoField(primary_key=True)
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
@@ -74,7 +71,7 @@ class AuthUser(models.Model):
     email = models.CharField(max_length=254)
     is_staff = models.BooleanField()
     is_active = models.BooleanField()
-    date_joined = models.DateTimeField(blank=True, null=True)
+    date_joined = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -101,16 +98,6 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
-
-
-class AuthtokenToken(models.Model):
-    key = models.CharField(primary_key=True, max_length=40)
-    created = models.DateTimeField()
-    user = models.OneToOneField(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'authtoken_token'
 
 
 class BillingType(models.Model):
@@ -192,14 +179,13 @@ class CurrencyConverter(models.Model):
 
 
 class DjangoAdminLog(models.Model):
-    id = models.BigAutoField(primary_key=True)
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
     object_repr = models.CharField(max_length=200)
     action_flag = models.SmallIntegerField()
     change_message = models.TextField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -207,7 +193,6 @@ class DjangoAdminLog(models.Model):
 
 
 class DjangoContentType(models.Model):
-    id = models.BigAutoField(primary_key=True)
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
 

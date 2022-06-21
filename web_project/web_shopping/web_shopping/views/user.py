@@ -1,8 +1,11 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
-
+from web_shopping.views.login import authorization
 
 def load(request):
+    auth, error = authorization(request, 'view_country')
+    if not auth:
+        return redirect(error)
     current_user = request.user
     if request.method == 'POST':
         try:

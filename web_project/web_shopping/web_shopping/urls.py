@@ -22,7 +22,11 @@ from web_shopping.views import logout
 from web_shopping.views import user
 from web_shopping.api   import authentication
 from web_shopping.views import model_register
-
+from django.conf.urls import handler403, handler404
+from web_shopping.views.errorpage import error_404
+from web_shopping.views import errorpage
+from django.conf.urls.static import static
+from django.conf import settings
 model_register.load()
 
 urlpatterns = [
@@ -31,7 +35,13 @@ urlpatterns = [
     path('home/', index.load),
     path('country/', country.load),
     path('login', login.authentication),
+    path('recovery/', login.recovery_pass),
     path('logout', logout.logout_user),
     path('edit-user/', user.load),
     path('api/v1/token', authentication.token),
-]
+    path('error-401/', errorpage.error_401_page),
+    path('error-403/', errorpage.error_403_page),
+    path('error-404/', errorpage.error_404_page),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler404 = "web_shopping.views.errorpage.error_404"

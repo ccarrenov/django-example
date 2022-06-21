@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import login, authenticate
-
+from web_shopping.util.autogenerate import generate
 
 def authentication(request):
     if request.method == 'POST':
@@ -14,10 +14,19 @@ def authentication(request):
     return redirect('home/')
 
 def authorization(request, perm):
-    if request.user != None:
+    print('authorization | user -> ', request.user)
+
+    if request.user != None and request.user.__str__() != 'AnonymousUser':
         if request.user.has_perm(perm):
-            return True
+            print('Authorized')
+            return True, ''
         else:
-            return False
+            print('Forbidden')
+            return False, '/error-403/'
     else:
-        return False
+        print('Unauthorized')
+        return False, '/error-401/'
+
+def recovery_pass(request):
+    print('new key', generate(32))
+    return None

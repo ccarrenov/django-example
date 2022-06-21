@@ -44,53 +44,7 @@
 	margin-bottom: 10px  !important;
 }
 
-/*.option a {
-	list-style: none;
-	text-decoration: none;
-	width: 100%;
-	margin-top: 2px;
-	margin-bottom: 2px;
-	border: 1px solid #000000;
-	border-radius: 0.25rem;
-	cursor: pointer;
-	font-size: 0.8em;
-	border-radius: 0.25rem;
-	cursor: pointer;
-	font-size: 0.8em;
-	color: #FFFFFF !important;
-}
-
-.option a:hover {
-	color: #0d6efd !important;
-	text-decoration: none;
-	margin-left: 3rem;
-}*/
-
-.option a {
-	list-style: none;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.option a li {
-	color: #FFFFFF !important;
-	margin-left: 3rem;
-	border: 1px solid #000000;
-	font-size: 0.8em;	
-	cursor: pointer;
-}
-
-.option a li:hover {
-	color: #0d6efd !important;
-	text-decoration: none;
-	margin-left: 3rem;
-	border: 1px solid #0d6efd;
-	border-radius: 0.25rem;	
-	font-size: 0.8em;	
-	cursor: pointer;
-}
-/*
-.option a li {
+.option li {
 	list-style: none;
 	text-decoration: none;
 	width: 100%;
@@ -109,13 +63,13 @@
 	cursor: pointer;
 }
 
-.option li:hover a {
+.option a:hover {
 	color: #0d6efd !important;
 	text-decoration: none;
 	margin-left: 3rem;
 }
 
-.option li a {
+.option a {
 	color: #FFFFFF !important;
 	text-decoration: none;
 	margin-left: 3rem;
@@ -125,7 +79,7 @@
 	color: #0d6efd !important;
 	text-decoration: none;
 	margin-left: 3rem;
-}*/
+}
 /* OFFCANVAS MENU FINISH*/
 
 .footer {
