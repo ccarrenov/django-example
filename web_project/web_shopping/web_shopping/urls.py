@@ -22,6 +22,8 @@ from web_shopping.views import logout
 from web_shopping.views import user
 from web_shopping.api   import authentication
 from web_shopping.views import model_register
+from web_shopping.views import verification_recovery
+from web_shopping.views import recovery
 from django.conf.urls import handler403, handler404
 from web_shopping.views.errorpage import error_404
 from web_shopping.views import errorpage
@@ -35,7 +37,8 @@ urlpatterns = [
     path('home/', index.load),
     path('country/', country.load),
     path('login', login.authentication),
-    path('recovery/', login.recovery_pass),
+    path('verification-recovery/', verification_recovery.load),
+    path('recovery/', recovery.load),
     path('logout', logout.logout_user),
     path('edit-user/', user.load),
     path('api/v1/token', authentication.token),

@@ -27,6 +27,9 @@ def authorization(request, perm):
         print('Unauthorized')
         return False, '/error-401/'
 
+def send_mail_recovery_pass(username):
+    return None
+
 def recovery_pass(request):
     print('new key', generate(32))
-    return None
+    return None                             
