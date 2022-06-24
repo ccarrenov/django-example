@@ -2,7 +2,7 @@
 {% block title %}Web Shopping{% endblock %}
 {% block content %}
 
-<div class="container-lg">
+<div class="container">
     <div class="row row-cols-auto">
         {% for product in products %}
         <div class="col">
@@ -14,7 +14,8 @@
             <div style="width: 250px; height: 100px;;"class="border border-secondary col mx-1 my-1">
                 <div>{{product.product_name}}</div>
                 <div>{{product.product_description}}</div>
-                <div>{{product.unit_sell_price}}</div>                  
+                <div>{{product.unit_sell_price}}</div>  
+                <div><button id="" class="btn btn-success"><i class="bi bi-plus-circle"></i></button></div>  
             </div>
         </div>
         {% endfor %}
