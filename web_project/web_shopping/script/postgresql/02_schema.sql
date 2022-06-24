@@ -106,6 +106,28 @@ CREATE TABLE django_migrations (
     applied timestamp NOT NULL
 );
 
+INSERT INTO django_migrations (app, name, applied) VALUES ('contenttypes', '0001_initial', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0001_initial', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('admin', '0001_initial', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('admin', '0002_logentry_remove_auto_add', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('admin', '0003_logentry_add_action_flag_choices', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('contenttypes', '0002_remove_content_type_name', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0002_alter_permission_name_max_length', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0003_alter_user_email_max_length', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0004_alter_user_username_opts', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0005_alter_user_last_login_null', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0006_require_contenttypes_0002', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0007_alter_validators_add_error_messages', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0008_alter_user_username_max_length', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0009_alter_user_last_name_max_length', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0010_alter_group_name_max_length', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0011_update_proxy_permissions', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('auth', '0012_alter_user_first_name_max_length', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('sessions', '0001_initial', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('authtoken', '0001_initial', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('authtoken', '0002_auto_20160226_1747', now());
+INSERT INTO django_migrations (app, name, applied) VALUES ('authtoken', '0003_tokenproxy', now());
+
 CREATE TABLE auth_permission (
     id BIGSERIAL PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -1060,9 +1082,9 @@ create table product (
 	id BIGSERIAL PRIMARY KEY,
 	product_name varchar(150),
 	product_description varchar(200),
-	list_unit_price BIGINT,	
 	brand_code BIGINT,	
 	category_code BIGINT,
+    img_url varchar(250),
    	CONSTRAINT fk_product_brand_id
     	FOREIGN KEY(brand_code) 
 	 	REFERENCES brand(id),
@@ -1073,17 +1095,17 @@ create table product (
 
 /*INSERT PRODUCT DATA*/
 
-INSERT INTO product (product_name, product_description, list_unit_price, brand_code, category_code) VALUES (
-		'Leche Entera', '', 1300,
-		(SELECT id FROM brand WHERE brand_name = 'Colun'), (SELECT id FROM category WHERE category_name = 'dairy products')); 
+INSERT INTO product (product_name, product_description, brand_code, category_code, img_url) VALUES (
+		'Leche Entera', '', 
+		(SELECT id FROM brand WHERE brand_name = 'Colun'), (SELECT id FROM category WHERE category_name = 'dairy products'), 'img/product/colun/milk.jpeg'); 
 
-INSERT INTO product (product_name, product_description, list_unit_price, brand_code, category_code) VALUES (
-		'Leche Entera', '', 1299,
-		(SELECT id FROM brand WHERE brand_name = 'Soprole'), (SELECT id FROM category WHERE category_name = 'dairy products')); 
+INSERT INTO product (product_name, product_description, brand_code, category_code, img_url) VALUES (
+		'Leche Entera', '', 
+		(SELECT id FROM brand WHERE brand_name = 'Soprole'), (SELECT id FROM category WHERE category_name = 'dairy products'), 'img/product/soprole/milk.jpeg'); 
 		
-INSERT INTO product (product_name, product_description, list_unit_price, brand_code, category_code) VALUES (
-		'Leche Entera', '', 1220,
-		(SELECT id FROM brand WHERE brand_name = 'Surlat'), (SELECT id FROM category WHERE category_name = 'dairy products')); 		
+INSERT INTO product (product_name, product_description, brand_code, category_code, img_url) VALUES (
+		'Leche Entera', '', 
+		(SELECT id FROM brand WHERE brand_name = 'Surlat'), (SELECT id FROM category WHERE category_name = 'dairy products'), 'img/product/surlat/milk.jpeg'); 		
 		
 SELECT * FROM product;
 
@@ -1124,22 +1146,40 @@ SELECT * FROM address_supplier;
 create table supplier(
 	id BIGSERIAL PRIMARY KEY,
 	supplier_name	varchar(150),
+    short_name  varchar(100),
 	supplier_phone varchar(20),
 	supplier_email varchar(80),
 	address_code bigint,	
-   	CONSTRAINT fk_person_address_id
+   	CONSTRAINT fk_address_supplier
     	FOREIGN KEY(address_code) 
-	 	REFERENCES address(id)	
+	 	REFERENCES address_supplier(id)	
 );
 
-INSERT INTO supplier (supplier_name, supplier_phone, supplier_email, address_code) VALUES
-('La Cooperativa Agrícola y Lechera de La Unión Limitada,', '+569 8888 7777', 'colun@colun.cl', (SELECT id FROM address_supplier WHERE street_name = ''));
+INSERT INTO supplier (supplier_name, short_name, supplier_phone, supplier_email, address_code) VALUES
+('La Cooperativa Agrícola y Lechera de La Unión Limitada', 'Colun', '+569 8888 7777', 'colun@colun.cl', 
+    (SELECT id FROM address_supplier WHERE street_name = 'Esmeralda' and street_number = '641'));
+    
+INSERT INTO supplier (supplier_name, short_name, supplier_phone, supplier_email, address_code) VALUES
+('Sociedad de Productores de Leche', 'Soprole', '+569 8888 7777', 'soprole@soprole.cl', 
+    (SELECT id FROM address_supplier WHERE street_name = 'Av. Brasil' and street_number = '650'));
+    
+INSERT INTO supplier (supplier_name, short_name, supplier_phone, supplier_email, address_code) VALUES
+('Surlat S.A.', 'Surlat', '+569 8888 7777', 'surlat@surlat.cl', 
+    (SELECT id FROM address_supplier WHERE street_name = 'Pdte Jorge Alessandri Rodríguez' and street_number = '10800'));
+    
+SELECT * FROM supplier;
 
 create table stock(
 	supplier_code bigint,	
 	product_code bigint,	
 	buy_date	date,
-	unit_price	bigint,
+	unit_cost_price	bigint,
+	unit_list_price bigint,
+	unit_sell_price bigint,    
+    sell_price bigint,
+    quanty_buy bigint,
+    quanty bigint,
+    active boolean NOT NULL DEFAULT false,
 	PRIMARY KEY (supplier_code, product_code, buy_date),
    	CONSTRAINT fk_stock_supplier_id
     	FOREIGN KEY(supplier_code) 
@@ -1149,6 +1189,28 @@ create table stock(
 	 	REFERENCES product(id)		
 );
 
+INSERT INTO stock (supplier_code, product_code, buy_date, unit_cost_price, unit_list_price, unit_sell_price, quanty_buy, quanty, active) 
+VALUES ((SELECT id FROM supplier WHERE short_name = 'Colun'),
+    (select id from product where product_name='Leche Entera' and brand_code = (SELECT id FROM brand WHERE brand_name = 'Colun')), now(), 750, 1210, 1210, 550, 550, true);
+
+INSERT INTO stock (supplier_code, product_code, buy_date, unit_cost_price, unit_list_price, unit_sell_price, quanty_buy, quanty, active) 
+VALUES ((SELECT id FROM supplier WHERE short_name = 'Soprole'),
+    (select id from product where product_name='Leche Entera' and brand_code = (SELECT id FROM brand WHERE brand_name = 'Soprole')), now(), 740, 1150, 1150, 550, 550, true);
+    
+INSERT INTO stock (supplier_code, product_code, buy_date, unit_cost_price, unit_list_price, unit_sell_price, quanty_buy, quanty, active) 
+VALUES ((SELECT id FROM supplier WHERE short_name = 'Surlat'),
+    (select id from product where product_name='Leche Entera' and brand_code = (SELECT id FROM brand WHERE brand_name = 'Surlat')), now(), 745, 1180, 1180, 550, 550, true);    
+
+SELECT * FROM stock;
+
+CREATE OR REPLACE VIEW product_stock as
+SELECT  pro.id, st.quanty, pro.product_name, pro.product_description, br.brand_name,
+        pro.img_url, st.unit_list_price, st.unit_sell_price
+FROM product pro
+JOIN stock st on st.product_code = pro.id
+JOIN brand br on br.id = pro.brand_code
+WHERE st.active = true;
+        
 create table billing_type (
 	id BIGSERIAL PRIMARY KEY,
 	billing_name 	varchar(100),
@@ -1158,6 +1220,7 @@ create table billing_type (
 INSERT INTO billing_type (billing_name, billing_detail) VALUES ('electronic bill', ''); 
 INSERT INTO billing_type (billing_name, billing_detail) VALUES ('ticket bill', ''); 
 
+SELECT * FROM billing_type;
 
 create table pay_method(
 	id BIGSERIAL PRIMARY KEY,
@@ -1168,4 +1231,9 @@ create table pay_method(
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('credit card', ''); 
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('debit card', ''); 
 INSERT INTO pay_method (pay_name, pay_detail) VALUES ('cash', ''); 
+
+SELECT * FROM pay_method;
+
+
+
 

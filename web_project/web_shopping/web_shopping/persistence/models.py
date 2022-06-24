@@ -269,13 +269,27 @@ class Product(models.Model):
     id = models.BigAutoField(primary_key=True)
     product_name = models.CharField(max_length=150, blank=True, null=True)
     product_description = models.CharField(max_length=200, blank=True, null=True)
-    list_unit_price = models.BigIntegerField(blank=True, null=True)
     brand_code = models.ForeignKey(Brand, models.DO_NOTHING, db_column='brand_code', blank=True, null=True)
     category_code = models.ForeignKey(Category, models.DO_NOTHING, db_column='category_code', blank=True, null=True)
+    img_url = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'product'
+
+class Product_Stock(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    quanty = models.BigIntegerField(blank=True, null=True)
+    product_name = models.CharField(max_length=150, blank=True, null=True)
+    product_description = models.CharField(max_length=200, blank=True, null=True)
+    brand_name = models.CharField(max_length=100, blank=True, null=True)
+    img_url = models.CharField(max_length=250, blank=True, null=True)
+    unit_list_price = models.BigIntegerField(blank=True, null=True)
+    unit_sell_price = models.BigIntegerField(blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'product_stock'        
 
 
 class Sex(models.Model):
@@ -304,20 +318,22 @@ class Stock(models.Model):
     supplier_code = models.OneToOneField('Supplier', models.DO_NOTHING, db_column='supplier_code', primary_key=True)
     product_code = models.ForeignKey(Product, models.DO_NOTHING, db_column='product_code')
     buy_date = models.DateField()
-    unit_price = models.BigIntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'stock'
-        unique_together = (('supplier_code', 'product_code', 'buy_date'),)
+    unit_cost_price = models.BigIntegerField(blank=True, null=True)
+    unit_list_price = models.BigIntegerField(blank=True, null=True)
+    unit_sell_price = models.BigIntegerField(blank=True, null=True)
+    sell_price = models.BigIntegerField(blank=True, null=True)
+    quanty_buy = models.BigIntegerField(blank=True, null=True)
+    quanty = models.BigIntegerField(blank=True, null=True)
+    active = models.BooleanField()
 
 
 class Supplier(models.Model):
     id = models.BigAutoField(primary_key=True)
     supplier_name = models.CharField(max_length=150, blank=True, null=True)
+    short_name = models.CharField(max_length=100, blank=True, null=True)
     supplier_phone = models.CharField(max_length=20, blank=True, null=True)
     supplier_email = models.CharField(max_length=80, blank=True, null=True)
-    address_code = models.ForeignKey(Address, models.DO_NOTHING, db_column='address_code', blank=True, null=True)
+    address_code = models.ForeignKey(AddressSupplier, models.DO_NOTHING, db_column='address_code', blank=True, null=True)
 
     class Meta:
         managed = False

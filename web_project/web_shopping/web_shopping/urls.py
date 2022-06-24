@@ -24,6 +24,7 @@ from web_shopping.api   import authentication
 from web_shopping.views import model_register
 from web_shopping.views import verification_recovery
 from web_shopping.views import recovery
+from web_shopping.views import products
 from django.conf.urls import handler403, handler404
 from web_shopping.views.errorpage import error_404
 from web_shopping.views import errorpage
@@ -45,6 +46,8 @@ urlpatterns = [
     path('error-401/', errorpage.error_401_page),
     path('error-403/', errorpage.error_403_page),
     path('error-404/', errorpage.error_404_page),
+    path('products/', products.load),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = "web_shopping.views.errorpage.error_404"
