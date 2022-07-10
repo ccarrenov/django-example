@@ -4,8 +4,10 @@
 
 ### Install Database Script
 
+```shell
 1- Execute 01_create_database.sql from /script/postgresql with admin user.
 2- Execute 02_schema.sql from /script/postgresql with web_shopping_adm in web_shopping_bd database.
+```
 
 ### Install Lib
 
