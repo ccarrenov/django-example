@@ -1,4 +1,4 @@
-/* EXECUTE WITH web_shopping_bd USER  */
+/* EXECUTE FILE WITH web_shopping_bd USER  */
 /*DROP TABLES SCHEMA DJANGO*/
 
 DROP TABLE IF EXISTS auth_user_user_permissions;

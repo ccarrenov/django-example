@@ -1,3 +1,4 @@
+/*EXECUTE FILE WITH ADMIN USER (postgres)*/
 /*DROP DATABASE SCHEMA*/
 DROP DATABASE IF EXISTS  web_shopping_bd;
 

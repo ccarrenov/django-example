@@ -6,10 +6,12 @@ from email.mime.image import MIMEImage
 from pathlib import Path
 from django.db.utils import IntegrityError
 from django.contrib.auth.models import User 
-import environ
 from rest_framework.authtoken.models import Token
 from web_shopping.util.autogenerate import generate
+from dotenv import load_dotenv
 
+# Initialise environment variables
+load_dotenv()
 
 def build_and_send(to_list, user_mail, password_mail, smtp_host_mail, smtp_port_mail, subject, body_mail):
     try:
@@ -37,14 +39,11 @@ def build_and_send(to_list, user_mail, password_mail, smtp_host_mail, smtp_port_
     except Exception as e:
         print(e)
 
-def load_email_sender():
-    # Initialise environment variables
-    env = environ.Env()
-    environ.Env.read_env()    
-    user_mail = env.str('USER_MAIL')
-    password_mail = env.str('PASSWORD_MAIL') 
-    smtp_host_mail = env.str('SMTP_HOST_MAIL')
-    smtp_port_mail = env.str('SMTP_PORT_MAIL')
+def load_email_sender():  
+    user_mail = os.getenv('USER_MAIL')
+    password_mail = os.getenv('PASSWORD_MAIL') 
+    smtp_host_mail = os.getenv('SMTP_HOST_MAIL')
+    smtp_port_mail = os.getenv('SMTP_PORT_MAIL')
     print('user_mail: ', user_mail)
     print('password_mail: ', password_mail)
     print('smtp_host_mail: ', smtp_host_mail)

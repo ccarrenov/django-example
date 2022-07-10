@@ -11,12 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import environ
+from dotenv import load_dotenv
 import os
 
 # Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,11 +83,11 @@ WSGI_APPLICATION = 'web_shopping.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env.str('NAME_DB'), 
-        'USER': env.str('USER_DB'), 
-        'PASSWORD': env.str('PASSWORD_DB'),
-        'HOST': env.str('HOST_DB'), 
-        'PORT': env.str('PORT_DB'),
+        'NAME': os.getenv('NAME_DB'), 
+        'USER': os.getenv('USER_DB'), 
+        'PASSWORD': os.getenv('PASSWORD_DB'),
+        'HOST': os.getenv('HOST_DB'), 
+        'PORT': os.getenv('PORT_DB'),
     }
 }
 
