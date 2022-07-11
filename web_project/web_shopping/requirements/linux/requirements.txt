@@ -11,3 +11,4 @@ requests==2.28.0
 sqlparse==0.4.2
 tzdata==2022.1
 urllib3==1.26.9
+transbank-sdk==3.0.0

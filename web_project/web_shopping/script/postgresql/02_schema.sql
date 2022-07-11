@@ -1238,7 +1238,7 @@ create table carts(
 	id BIGSERIAL PRIMARY KEY,
 	user_id bigint,
 	product_code bigint,	
-    quanty bigint,
+    quantity bigint,
 	date_add timestamp,
    	CONSTRAINT fk_carts_auth_user_id
     	FOREIGN KEY(user_id) 

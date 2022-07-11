@@ -15,24 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web_shopping.api   import authentication
-from web_shopping.views import index
-from web_shopping.views import country
-from web_shopping.views import login
-from web_shopping.views import logout
-from web_shopping.views import user
-from web_shopping.views import model_register
-from web_shopping.views import verification_recovery
-from web_shopping.views import recovery
-from web_shopping.views import products
-from web_shopping.views import city
-from web_shopping.views import carts
-from web_shopping.views import state
 from django.conf.urls import handler403, handler404
-from web_shopping.views.errorpage import error_404
-from web_shopping.views import errorpage
 from django.conf.urls.static import static
 from django.conf import settings
+from web_shopping.api import authentication
+from web_shopping.views import index, country, login, logout, user, model_register
+from web_shopping.views import verification_recovery, recovery, products, city, carts, state, transbankpay
+from web_shopping.views.errorpage import error_404
+from web_shopping.views import errorpage
+
 model_register.load()
 
 urlpatterns = [
@@ -53,6 +44,8 @@ urlpatterns = [
     path('city/', city.load),
     path('carts/', carts.load),
     path('state/', state.load),
+    path('commit-pay/', transbankpay.commitpay),
+    path('webpay-plus-create', transbankpay.webpay_plus_create),      
     #ERROR PAGES
     path('error-401/', errorpage.error_401_page),
     path('error-403/', errorpage.error_403_page),

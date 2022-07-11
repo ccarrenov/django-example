@@ -15,8 +15,8 @@ def load(request):
             carts.add_product(product_id, username)
         except Exception as ex:
             print('Error ', ex)
-    quanty = carts.load_carts(request)
-    return render(request, 'product.html', {'products' : load_product(), 'quanty': quanty})
+    quantity = carts.load_carts(request)
+    return render(request, 'product.html', {'products' : load_product(), 'quantity': carts.load_carts(request)})
 
 def load_product():
     return Product_Stock.objects.all()

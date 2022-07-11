@@ -51,3 +51,12 @@ SMTP_PORT_MAIL=587
 ```
 
 **Note:** Modify environment with custom data.
+
+### TRANSBANK PAY
+
+**CARD PAY**
+```shell
+REDCOMPRA: 4051 8842 3993 7763
+Rut: 11.111.111-1
+Clave: 123
+```

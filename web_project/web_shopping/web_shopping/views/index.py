@@ -5,7 +5,7 @@ from web_shopping.views import carts
 
 def load(request): 
     quanty = carts.load_carts(request)
-    return render(request, 'index.html', {'imgs' : load_imgs(), 'quanty': quanty})
+    return render(request, 'index.html', {'imgs' : load_imgs(), 'quantity': carts.load_carts(request)})
 
 def load_imgs():
     print('load img carousel')

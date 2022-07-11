@@ -8,28 +8,37 @@
         <th scope="col">PRODUCT</th>
         <th scope="col">QUANTY</th>
         <th scope="col">PRICE</th>
+        <th scope="col">TOTAL</th>
       </tr>
     </thead>
     <tbody>
-        {% for product in products %}
+        {% for cart in carts %}
+        {% for product_stock in products_stock %}
+        {% if cart.product.id ==  product_stock.id%}
       <tr>
         <td>
             <figure class="figure">
-                <img src="{% static product.image %}" 
-                style="max-width: 150px; max-height: 150px;" class="img-thumbnail" alt="xbox gamepad">
-                    <figcaption class="figure-caption text-center">{{product.product}}</figcaption>
-                    <figcaption class="figure-caption text-center">{{product.description}}</figcaption>            
+                <img src="{% static cart.product.img_url %}" 
+                style="max-width: 150px; max-height: 150px;" class="img-thumbnail" alt="">
+                    <figcaption class="figure-caption text-center">{{car.product.product_name}}</figcaption>
+                    <figcaption class="figure-caption text-center">{{car.product.product_description}}</figcaption>            
                 </figure>                      
         </td>
-        <td>{{product.quantity}}</td>
-        <td>{{product.price}}</td>
+        <td>{{cart.quantity}}</td>
+        <td>{{product_stock.unit_sell_price}}</td>
+        <td>{% widthratio cart.quantity 1 product_stock.unit_sell_price %}</td>        
+        {% endif %}        
+        {% endfor %}        
         {% endfor %}        
       </tr>
       <form id='frm-pay' name="pay" action="/webpay-plus-create" method="POST">{% csrf_token %}
+        <input id='txt-amount' name="amount" hidden value="{{total}}"/> 
+        <input id='txt-buy_order' name="buy_order" hidden value="{{buy_order}}"/>        
+        <input id='txt-session_id' name="session_id" hidden value="{{session_id}}"/>        
       <tr>
         <td></td>
         <td><strong>Total</strong></td>
-        <td><strong>{{total}}</strong><input id='txt-total' name="total" hidden value="{{total}}" /></td>
+        <td><strong>{{total}}</strong></td>
         <td><button class="alert alert-primary">PAY</button></td>       
       </tr>
     </form>            
