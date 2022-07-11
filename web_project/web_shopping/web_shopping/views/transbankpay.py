@@ -71,7 +71,7 @@ def commitpay(request):
                 'authorization_code': response.get('authorization_code'),
                 'buy_order': response.get('buy_order')
             }
-            return render(request, 'commit-pay.html', {'transaction_detail': transaction_detail})
+            return render(request, 'commit-pay.html', {'transaction_detail': transaction_detail, 'quantity': carts.load_carts(request)})
         else:
             return HttpResponse('ERROR EN LA TRANSACCIÓN, SE RECHAZA LA TRANSACCIÓN')
     else:                             
