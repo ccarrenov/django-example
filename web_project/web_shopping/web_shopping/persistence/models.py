@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Address(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -171,24 +171,23 @@ class Country(models.Model):
 class Currency(models.Model):
     id = models.BigAutoField(primary_key=True)
     currency_name = models.CharField(max_length=120, blank=True, null=True)
-    symbol = models.CharField(max_length=-1, blank=True, null=True)
+    symbol = models.CharField(max_length=1, blank=True, null=True)
     country_code = models.ForeignKey(Country, models.DO_NOTHING, db_column='country_code', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'currency'
 
-
-class CurrencyConverter(models.Model):
-    from_currency_code = models.OneToOneField(Currency, models.DO_NOTHING, db_column='from_currency_code', primary_key=True)
-    to_currency_code = models.ForeignKey(Currency, models.DO_NOTHING, db_column='to_currency_code')
-    currency_day = models.DateField()
-    amount = models.DecimalField(max_digits=65535, decimal_places=65535)
-
-    class Meta:
-        managed = False
-        db_table = 'currency_converter'
-        unique_together = (('from_currency_code', 'to_currency_code', 'currency_day'),)
+#class CurrencyConverter(models.Model):
+#    from_currency_code = models.OneToOneField(Currency, models.DO_NOTHING, db_column='from_currency_code', primary_key=True)
+#    to_currency_code = models.ForeignKey(Currency, models.DO_NOTHING, db_column='to_currency_code')
+#    currency_day = models.DateField()
+#    amount = models.DecimalField(max_digits=65535, decimal_places=65535)
+#
+#    class Meta:
+#        managed = False
+#        db_table = 'currency_converter'
+#        unique_together = (('from_currency_code', 'to_currency_code', 'currency_day'),)
 
 
 class DjangoAdminLog(models.Model):
@@ -338,3 +337,14 @@ class Supplier(models.Model):
     class Meta:
         managed = False
         db_table = 'supplier'
+
+class Carts(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    product = models.ForeignKey('Product', models.DO_NOTHING, db_column='product_code', blank=True, null=True)      
+    quanty = models.BigIntegerField(blank=True, null=True)
+    date_add = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'carts'

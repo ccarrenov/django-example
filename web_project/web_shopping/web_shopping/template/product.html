@@ -11,11 +11,13 @@
                     <img src="{% static product.img_url %}" class="figure-img rounded w-75" alt="...">
                 </div>                            
             </div>
-            <div style="width: 250px; height: 100px;;"class="border border-secondary col mx-1 my-1">
-                <div>{{product.product_name}}</div>
-                <div>{{product.product_description}}</div>
-                <div>{{product.unit_sell_price}}</div>  
-                <div><button id="" class="btn btn-success"><i class="bi bi-plus-circle"></i></button></div>  
+            <div style="width: 250px; height: 100px;"class="border border-secondary col mx-1 my-1">
+                <div class="text-center">{{product.product_name}}</div>
+                <div class="text-center">{{product.product_description}}</div>
+                <div class="text-center">{{product.unit_sell_price}}</div>  
+                <div class="text-center">
+                    <a class="btn btn-outline-success ms-2" href="/products?product_id={{product.id}}"><i class="bi bi-plus-circle-fill"></i><span>ADD</span></a>
+                </div>  
             </div>
         </div>
         {% endfor %}

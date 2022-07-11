@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from pathlib import Path
 import glob, os
+from web_shopping.views import carts
 
 def load(request): 
-    return render(request, 'index.html', {'imgs' : load_imgs()})
+    quanty = carts.load_carts(request)
+    return render(request, 'index.html', {'imgs' : load_imgs(), 'quanty': quanty})
 
 def load_imgs():
     print('load img carousel')

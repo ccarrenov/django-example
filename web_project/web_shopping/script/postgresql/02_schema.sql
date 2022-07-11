@@ -1234,6 +1234,22 @@ INSERT INTO pay_method (pay_name, pay_detail) VALUES ('cash', '');
 
 SELECT * FROM pay_method;
 
+create table carts(
+	id BIGSERIAL PRIMARY KEY,
+	user_id bigint,
+	product_code bigint,	
+    quanty bigint,
+	date_add timestamp,
+   	CONSTRAINT fk_carts_auth_user_id
+    	FOREIGN KEY(user_id) 
+	 	REFERENCES auth_user(id),
+   	CONSTRAINT fk_carts_product_id
+    	FOREIGN KEY(product_code) 
+	 	REFERENCES product(id)	
+);
 
+/*
+create table history_carts(
 
+)*/
 
